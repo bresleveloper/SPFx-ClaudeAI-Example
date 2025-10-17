@@ -4,7 +4,10 @@ playing with claude code to build spfx, copying desing from [this htmlcodex](htt
 
 see `rag` to learn to talk specifically enough with claude.
 
-i walkthough this in [this youtube]() (HEBREW) TBD
+## Youtubes (HEBREW)
+* part of [O365 playlist](https://www.youtube.com/playlist?list=PLbZpz8SE2dleEZQuvHvC60eKkFoGSDLSs) 
+* also visit [AI dev playlist](https://www.youtube.com/playlist?list=PLbZpz8SE2dldzAQcmHgz-05hyJ0-nRyLL) 
+
 
 ## Conclusion
 
