@@ -1,0 +1,12 @@
+in rag/reqs/console1.log there is log of the SP page with no webparts at all.
+in rag/reqs/console.log there is log of the SP page with our webparts .
+
+so filter out messages that are actually  "ours"
+
+i added ShnitzelTestWebPart, and its working fine.
+
+you must research and understand the difference between him and the other 2 that you created and find out where did you fucked up.
+
+also put ALL functions in try catch block as i believe its a your-code problem.
+
+ultrathink for your analysis, do your tasks, increment revision and re-build

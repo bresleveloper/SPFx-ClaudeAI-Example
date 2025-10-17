@@ -1,0 +1,8 @@
+do websearch on this page https://htmlcodex.com/demo/?item=2384, in order to learn how to create html+css for the components over there, i need 2 components, titled with "Doughnut Chart" and "Recent Salse"
+
+you need to make a details research for ai code assistent to the level that it can create each of these components as individual items or webparts.
+
+just the html/css, no other "ideas", the ai code assistent should be able to read this file and apply the look and feel to any table/Doughnut, including background
+
+
+write output to rag/MyChosenGUI.md

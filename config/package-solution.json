@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "shitzel-sp-fx-client-side-solution",
+    "id": "7b28edcd-a1b5-4ca5-bf3e-914d79d4f877",
+    "version": "1.0.1.6",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.19.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "ShitzelSPFx description"
+      },
+      "longDescription": {
+        "default": "ShitzelSPFx description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "shitzel-sp-fx Feature",
+        "description": "The feature that activates elements of the shitzel-sp-fx solution.",
+        "id": "ffb96f19-96cb-4c79-8a51-41fb0c2e151c",
+        "version": "1.0.1.6"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/shitzel-sp-fx.sppkg"
+  }
+}

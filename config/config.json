@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "shnitzel-test-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/shnitzelTest/ShnitzelTestWebPart.js",
+          "manifest": "./src/webparts/shnitzelTest/ShnitzelTestWebPart.manifest.json"
+        }
+      ]
+    },
+    "shintzel-table-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/shintzelTable/ShintzelTableWebPart.js",
+          "manifest": "./src/webparts/shintzelTable/ShintzelTableWebPart.manifest.json"
+        }
+      ]
+    },
+    "shintzel-doughnut-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/shintzelDoughnut/ShintzelDoughnutWebPart.js",
+          "manifest": "./src/webparts/shintzelDoughnut/ShintzelDoughnutWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ShnitzelTestWebPartStrings": "lib/webparts/shnitzelTest/loc/{locale}.js",
+    "ShintzelTableWebPartStrings": "lib/webparts/shintzelTable/loc/{locale}.js",
+    "ShintzelDoughnutWebPartStrings": "lib/webparts/shintzelDoughnut/loc/{locale}.js"
+  }
+}

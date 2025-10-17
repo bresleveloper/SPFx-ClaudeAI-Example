@@ -1,0 +1,7 @@
+do websearch to build knowledge base for ai code assistant about sharepoint rest api via spfx.
+
+the 2 most important apis for this project will be:
+1. GET https://{site_url}/_api/web/lists/GetByTitle('{list_title}')/Fields
+2. GET https://{site_url}/_api/web/lists/GetByTitle('{list_title}')/items
+
+write output to rag/SP_RestApi.md
