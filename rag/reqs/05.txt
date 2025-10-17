@@ -1,0 +1,6 @@
+shintzelDoughnut looks better, just the fonts of its title is not right, and there is a trailin button without text just remove it.
+
+shintzelTable the fonts are not right, also no data is showing, you ruined the data rendering.
+read again `rag/MyChosenGUI.md` or https://htmlcodex.com/demo/?item=2384 (Recent Salse item) and find the correct fonts colors and sizes and table's border color.
+
+dont over-do anything, focus on what i specified and suggest minimal changes to achieve goals.

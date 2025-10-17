@@ -1,12 +1,16 @@
-in rag/reqs/console1.log there is log of the SP page with no webparts at all.
-in rag/reqs/console.log there is log of the SP page with our webparts .
+you created shintzelDoughnut and shintzelTable
 
-so filter out messages that are actually  "ours"
+they do not look like the spec in rag/MyChosenGUI.md
 
-i added ShnitzelTestWebPart, and its working fine.
+ultrathink and fix it.
 
-you must research and understand the difference between him and the other 2 that you created and find out where did you fucked up.
+do all changes needed but as html/css only, the rest is working, so dont ruin
 
-also put ALL functions in try catch block as i believe its a your-code problem.
+you also need to manage background in the webparts level.
 
-ultrathink for your analysis, do your tasks, increment revision and re-build
+read the images in `rag/reqs/imgs`. 
+`12 res.png` -> is current result. 
+`2025-10-17 12_26_40-Live Demo - Free HTML Templates Live Demo - HTML Codex.png` -> is from demo, that is how the ui of table webparts should look like. 
+
+you can also remove the checkbox from the table, and the button column.
+the headers should also be the Fields Display Names.

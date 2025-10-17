@@ -3,7 +3,7 @@
   "solution": {
     "name": "shitzel-sp-fx-client-side-solution",
     "id": "7b28edcd-a1b5-4ca5-bf3e-914d79d4f877",
-    "version": "1.0.1.6",
+    "version": "1.0.1.16",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

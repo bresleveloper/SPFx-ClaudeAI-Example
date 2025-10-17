@@ -17,7 +17,7 @@ export default class ShnitzelTestWebPart extends BaseClientSideWebPart<IShnitzel
 
   public render(): void {
     console.log("ShnitzelTestWebPart")
-    this.domElement.innerHTML = `<h1>ShnitzelTestWebPart "1.0.1.7"</h1>`;
+    this.domElement.innerHTML = `<h1>ShnitzelTestWebPart "1.0.1.16"</h1>`;
   }
 
   protected onInit(): Promise<void> {

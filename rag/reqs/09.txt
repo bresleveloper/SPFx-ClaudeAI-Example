@@ -1,0 +1,23 @@
+
+shintzelTable.
+
+read `rag/List Rest response.json` to understand your object.
+
+remove "Content Type" columns. add the Modified column (date field)
+
+USERId from response for USER column
+
+"OData__x05e1__x05d8__x05d8__x05d5__x05" is for status
+"OData__x05d8__x05e7__x05e1__x05d8__x05" for "טקסט אישור"
+
+
+
+
+--------------------
+i had to personally add 
+    if (!value){
+    value = item["OData_"+field.InternalName];
+    }
+
+
+

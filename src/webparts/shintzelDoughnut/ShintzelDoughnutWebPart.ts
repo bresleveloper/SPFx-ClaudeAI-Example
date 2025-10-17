@@ -143,14 +143,7 @@ export default class ShintzelDoughnutWebPart extends BaseClientSideWebPart<IShin
 
       const html = `
         <div class="doughnut-chart-container">
-          <div class="chart-header">
-            <h3 class="chart-title">Status Distribution</h3>
-            <div class="chart-actions">
-              <button class="refresh-btn" aria-label="Refresh chart" title="Refresh">
-                <i class="ms-Icon ms-Icon--Refresh"></i>
-              </button>
-            </div>
-          </div>
+          <h6 class="mb-4">Doughnut Chart</h6>
 
           <div class="chart-body">
             <canvas id="doughnutChart" width="400" height="400" aria-label="Doughnut chart visualization"></canvas>
@@ -172,9 +165,6 @@ export default class ShintzelDoughnutWebPart extends BaseClientSideWebPart<IShin
 
       // Draw canvas chart
       this.drawDoughnutChart();
-
-      // Attach event handlers
-      this.attachEventHandlers();
     } catch (error) {
       console.error('Error rendering doughnut chart:', error);
     }
@@ -224,7 +214,7 @@ export default class ShintzelDoughnutWebPart extends BaseClientSideWebPart<IShin
           ctx.fill();
 
           // Optional: Add stroke for better visibility
-          ctx.strokeStyle = '#ffffff';
+          ctx.strokeStyle = '#000000';
           ctx.lineWidth = 2;
           ctx.stroke();
 
@@ -236,11 +226,11 @@ export default class ShintzelDoughnutWebPart extends BaseClientSideWebPart<IShin
       // Draw center circle (creates donut hole)
       ctx.beginPath();
       ctx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = '#191C24';
       ctx.fill();
 
       // Draw center text (total count)
-      ctx.fillStyle = '#323130';
+      ctx.fillStyle = '#6C7293';
       ctx.font = 'bold 32px Segoe UI';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -248,7 +238,7 @@ export default class ShintzelDoughnutWebPart extends BaseClientSideWebPart<IShin
 
       // Draw "Total" label
       ctx.font = '14px Segoe UI';
-      ctx.fillStyle = '#605e5c';
+      ctx.fillStyle = '#6C7293';
       ctx.fillText('Total', centerX, centerY + 20);
 
     } catch (error) {
@@ -267,25 +257,6 @@ export default class ShintzelDoughnutWebPart extends BaseClientSideWebPart<IShin
     } catch (error) {
       console.error('Error getting color for status:', error);
       return '#808080'; // Gray fallback
-    }
-  }
-
-  private attachEventHandlers(): void {
-    try {
-      const refreshBtn = this.domElement.querySelector('.refresh-btn');
-      if (refreshBtn) {
-        refreshBtn.addEventListener('click', () => this.handleRefresh());
-      }
-    } catch (error) {
-      console.error('Error attaching event handlers:', error);
-    }
-  }
-
-  private handleRefresh(): void {
-    try {
-      this.loadData();
-    } catch (error) {
-      console.error('Error handling refresh:', error);
     }
   }
 

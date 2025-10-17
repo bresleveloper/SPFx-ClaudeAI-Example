@@ -1,0 +1,11 @@
+
+shintzelTable.
+
+content of table (all cells) x0.8 font size of .
+
+you need to read the html/css structre of the webparts to understand how to properly implement this.
+
+next, there is a data rendering problem, most cells are without content.
+
+the "attachments" column remove.
+the "USER" column field is returning as an object, you should find property like "display name" or "title" or "full name" or something similar to obtain string value.

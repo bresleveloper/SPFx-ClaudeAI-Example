@@ -75,7 +75,7 @@ export default class ShintzelTableWebPart extends BaseClientSideWebPart<IShintze
   private async fetchCustomFields(): Promise<void> {
     try {
       const listName = this.properties.listName || 'ProcApprvlShnitzel3';
-      const url = `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('${listName}')/Fields?$filter=Hidden eq false and ReadOnlyField eq false and FromBaseType eq false&$select=InternalName,Title,TypeAsString`;
+      const url = `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('${listName}')/Fields?$filter=Hidden eq false and ReadOnlyField eq false and InternalName ne 'Attachments' and InternalName ne 'ContentType' and InternalName ne 'ContentTypeId'&$select=InternalName,Title,TypeAsString`;
 
       const response: SPHttpClientResponse = await this.context.spHttpClient.get(
         url,
@@ -88,6 +88,13 @@ export default class ShintzelTableWebPart extends BaseClientSideWebPart<IShintze
 
       const data = await response.json();
       this._customFields = data.value || [];
+
+      // Add Modified base field explicitly
+      this._customFields.push({
+        InternalName: 'Modified',
+        Title: 'Modified',
+        TypeAsString: 'DateTime'
+      });
     } catch (error) {
       console.error('Error fetching custom fields:', error);
       this._customFields = [];
@@ -97,6 +104,7 @@ export default class ShintzelTableWebPart extends BaseClientSideWebPart<IShintze
   private async fetchListItems(): Promise<void> {
     try {
       const listName = this.properties.listName || 'ProcApprvlShnitzel3';
+
       const url = `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('${listName}')/items?$orderby=Created desc&$top=5000`;
 
       const response: SPHttpClientResponse = await this.context.spHttpClient.get(
@@ -134,29 +142,34 @@ export default class ShintzelTableWebPart extends BaseClientSideWebPart<IShintze
         `)
         .join('');
 
+      let once = false;
+
       const itemRows = paginatedItems
         .map(item => {
           const customFieldCells = this._customFields
             .map(field => {
-              const value = item[field.InternalName];
+              let value = item[field.InternalName];
+              // For User fields, SharePoint stores the ID as InternalName + "Id"
+              if (field.TypeAsString === 'User' && (value === null || value === undefined)) {
+                value = item[field.InternalName + 'Id'];
+              }
+
+              if (!value){
+                value = item["OData_"+field.InternalName];
+                if (!once) {
+                  console.log(`value = item["OData_"+field.InternalName];`, value);
+                  once = true;
+                }
+              }
+
               const displayValue = this.formatFieldValue(value, field.TypeAsString);
               return `<td>${escape(displayValue)}</td>`;
             })
             .join('');
 
-          const createdDate = new Date(item.Created).toLocaleString();
-
           return `
             <tr>
-              <td>${item.Id}</td>
-              <td>${escape(item.Title || '')}</td>
-              <td>${escape(createdDate)}</td>
               ${customFieldCells}
-              <td>
-                <div class="actions-cell">
-                  <button class="action-btn" data-id="${item.Id}" title="View">👁️</button>
-                </div>
-              </td>
             </tr>
           `;
         })
@@ -165,47 +178,15 @@ export default class ShintzelTableWebPart extends BaseClientSideWebPart<IShintze
       const html = `
         <div class="recent-sales-container">
           <div class="sales-header">
-            <h3 class="sales-title">${escape(this.properties.listName || 'ProcApprvlShnitzel3')} Items</h3>
-            <div class="sales-actions">
-              <button class="filter-btn" aria-label="Filter items" title="Filter">
-                <i class="ms-Icon ms-Icon--Filter"></i>
-              </button>
-              <button class="export-btn" aria-label="Export data" title="Export to CSV">
-                <i class="ms-Icon ms-Icon--Download"></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="sales-summary">
-            <div class="summary-item">
-              <span class="summary-label">Total Items</span>
-              <span class="summary-value">${this._allItems.length}</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Custom Fields</span>
-              <span class="summary-value success">${this._customFields.length}</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Current Page</span>
-              <span class="summary-value">${this._currentPage} of ${totalPages}</span>
-            </div>
+            <h6 class="sales-title">Recent Salse</h6>
+            <a href="" class="show-all-link">Show All</a>
           </div>
 
           <div class="sales-table-wrapper">
             <table class="sales-table" role="table" aria-label="List items">
               <thead>
                 <tr>
-                  <th class="sortable" data-column="Id">
-                    ID <span class="sort-icon">⇅</span>
-                  </th>
-                  <th class="sortable" data-column="Title">
-                    Title <span class="sort-icon">⇅</span>
-                  </th>
-                  <th class="sortable" data-column="Created">
-                    Created <span class="sort-icon">⇅</span>
-                  </th>
                   ${customFieldHeaders}
-                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -241,7 +222,26 @@ export default class ShintzelTableWebPart extends BaseClientSideWebPart<IShintze
         return new Date(value).toLocaleString();
       }
 
+      // Handle User field types
+      if (fieldType === 'User') {
+        // Value should be a number (user ID) at this point
+        return value ? String(value) : '';
+      }
+
+      // Handle Lookup fields
+      if (fieldType === 'Lookup' || fieldType === 'LookupMulti') {
+        if (typeof value === 'object') {
+          if (value.Title) return value.Title;
+          if (value.lookupValue) return value.lookupValue;
+        }
+        return '';
+      }
+
       if (typeof value === 'object') {
+        // Try common display properties before stringifying
+        if (value.Title) return value.Title;
+        if (value.text) return value.text;
+        if (value.name) return value.name;
         return JSON.stringify(value);
       }
 
@@ -357,7 +357,14 @@ export default class ShintzelTableWebPart extends BaseClientSideWebPart<IShintze
         item.Id,
         item.Title || '',
         new Date(item.Created).toLocaleString(),
-        ...this._customFields.map(f => this.formatFieldValue(item[f.InternalName], f.TypeAsString))
+        ...this._customFields.map(f => {
+          let value = item[f.InternalName];
+          // For User fields, SharePoint stores the ID as InternalName + "Id"
+          if (f.TypeAsString === 'User' && (value === null || value === undefined)) {
+            value = item[f.InternalName + 'Id'];
+          }
+          return this.formatFieldValue(value, f.TypeAsString);
+        })
       ]);
 
       const csvContent = [

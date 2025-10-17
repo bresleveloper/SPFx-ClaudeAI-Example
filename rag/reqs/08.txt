@@ -1,0 +1,12 @@
+
+shintzelTable.
+
+i removed all the  "USER" column field formatting and logid. just make sure that for USER field you put "USERId" property value
+
+
+
+test also for case property returned is USERId exaclty
+
+
+
+you dont get it, item[f.InternalName] -> might only exists item["USERId"]
